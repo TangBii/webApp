@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+   <style>
+      html,body{
+         height: 1em;
+      }
+      #test{
+         position: absolute;
+         left: 0;
+         top: 0;
+         bottom: 0;
+         right: 0;
+         margin: auto;
+         width: 8em;
+         height: 8em;
+         background: pink;
+      }
+   </style>
+</head>
+<body>
+
+<div id="test"></div>
+
+
+
+
+   <script type="text/javascript">
+      // rem适配核心代码
+     (function () {
+       var w = document.documentElement.clientWidth / 16
+       var styleNode = document.createElement('style')
+       styleNode.innerHTML = 'html{fontsize:'+w+'px !important;}'
+       document.head.appendChild(styleNode)
+     })()
+
+     //验证
+      var html = document.getElementsByTagName('html')[0]
+      html.style.fontSize = '10px'
+   </script>
+</body>
+</html>
