@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Title</title>
+   <style>
+      .test{
+         margin: 100px;
+         width: 200px;
+         height:50px;
+         line-height: 50px;
+         background: black;
+         color: orange;
+      }
+      span{
+         color:greenyellow;
+      }
+
+   </style>
+</head>
+<body>
+<div class="test"><em>验证码:</em><span>test验证码</span></div>
+</body>
+<script type="text/javascript">
+  window.onload = function () {
+
+    // 全局禁止默认事件
+    document.addEventListener('touchstart', function (ev) {
+      ev = ev || event
+      ev.preventDefault()
+    })
+
+    var div = document.getElementsByTagName('div')[0]
+
+    div.addEventListener('touchstart',function(ev){
+      ev = ev || event
+      ev.preventDefault()
+    })
+
+
+    // 验证码区域阻止冒泡
+    var span = document.getElementsByTagName('span')[0]
+
+    span.addEventListener('touchstart',function(ev){
+       ev = ev || event
+      ev.stopPropagation()
+    })
+
+  }
+</script>
+</html>
