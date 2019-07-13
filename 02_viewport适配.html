@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width">
+   <style>
+      .test{
+         width: 320px;
+         height: 200px;
+         background: pink;
+      }
+   </style>
+</head>
+<body>
+<div class="test"></div>
+<script type="text/javascript">
+  (function () {
+    var targetW = 640
+    var scale = document.documentElement.clientWidth / targetW
+    var meta = document.querySelector('meta[name="viewport"]')
+    meta.content = "initial-scale="+scale+",user-scalable=no,minimum-scale="+scale+",maximum-scale="+scale
+  })()
+</script>
+</body>
+</html>
