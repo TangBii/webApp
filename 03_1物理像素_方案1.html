@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Title</title>
+   <style>
+      *{
+         margin: 0;
+         padding: 0;
+      }
+
+      .test{
+         width: 16rem;
+         height: 1px;
+         margin-top: 1rem;
+         background: black;
+      }
+   </style>
+</head>
+<body>
+    <div class="test"></div>
+   <script type="text/javascript">
+        window.onload=function(){
+          (function(){
+            var dpr  = window.devicePixelRatio||1;
+            var styleNode = document.createElement("style");
+            var w = document.documentElement.clientWidth*dpr/16;
+            styleNode.innerHTML="html{font-size:"+w+"px!important}";
+            document.head.appendChild(styleNode);
+
+            var scale = 1/dpr;
+            var meta = document.querySelector("meta[name='viewport']");
+            meta.content="width=device-width,initial-scale="+scale;
+          })()
+        }
+
+
+
+
+   </script>
+</body>
+</html>
+
+
