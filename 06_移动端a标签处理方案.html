@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<a href="https://www.baidu.com">百度一下</a>
+<body>
+<script>
+   window.onload = function () {
+     document.addEventListener("touchstart",function(ev){
+       ev=ev||event;
+       ev.preventDefault();
+     })
+
+     var a  = document.getElementsByTagName('a')[0]
+     var isMoved = false
+     a.addEventListener('touchstart',function(){
+       isMoved = false
+     })
+     a.addEventListener('touchmove',function () {
+       isMoved = true
+     })
+     a.addEventListener('touchend',function () {
+       if(!isMoved){
+         location.href = this.href
+       }
+     })
+
+
+
+   }
+</script>
+</body>
+</html>
