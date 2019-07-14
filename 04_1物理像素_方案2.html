@@ -9,23 +9,33 @@
          margin: 0;
          padding: 0;
       }
-
       .test{
-         width: 16rem;
-         height: 1px;
-         margin-top: 1rem;
+         position: relative;
+         width: 100px;
+         height: 100px;
+         background: pink;
+      }
+      .test:before{
+         position: absolute;
+         bottom: 0;
+         content: '';
+         display:block;
+         height:1px;
+         width:100%;
          background: black;
       }
-      @media only screen and (-webkit-device-pixel-ratio : 2) {
-         .test{
-            transform: scaleY(0.5);
+
+      @media only screen and (-webkit-device-pixel-ratio:2){
+         .test:before{
+            transform:scaleY(.5);
          }
       }
-      @media only screen and (-webkit-device-pixel-ratio : 3) {
-         .test{
-            transform: scaleY(0.33333);
+      @media only screen and (-webkit-device-pixel-ratio:3){
+         .test:before{
+            transform:scaleY(.333333);
          }
       }
+
    </style>
 </head>
 <body>
