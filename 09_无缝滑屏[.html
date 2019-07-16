@@ -186,13 +186,62 @@
 
 
       // 轮播函数
+      // function autoPlay() {
+      //   clearInterval(carouselTimer)
+      //   carouselTimer = setInterval(function () {
+      //     if(index===arr.length - 1){
+      //       index = arrLength - 1
+      //       carouselList.style.transition = 'none'
+      //       css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+      //     }
+      //     index++
+      //     if (index === arrLength && !carouselLoop) {
+      //       index = 0
+      //       carouselList.style.transition = 'none'
+      //       changePage(index)
+      //     }
+      //     if (carouselLoop) {
+      //       if(index > arrLength){
+      //           css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+      //           carouselList.addEventListener('transitionend',loopControl2)
+      //       }
+      //       else {
+      //         carouselList.removeEventListener('transitionend',loopControl2)
+      //       }
+      //       if(index === arrLength){
+      //         carouselList.addEventListener('transitionend',loopControl)
+      //       }
+      //       setInterval(function () {
+      //         carouselList.removeEventListener('transitionend',loopControl)
+      //       },1000)
+      //       // else {
+      //       //   carouselList.removeEventListener('transitionend',loopControl)
+      //       // }
+      //     }
+      //     setTimeout(function () {
+      //       carouselList.style.transition = '.8s transform'
+      //       changePage(index)
+      //     }, 50)
+      //   }, 1200)
+      // }
+
+
+      var flag = true
       function autoPlay() {
         clearInterval(carouselTimer)
         carouselTimer = setInterval(function () {
-          if(index===arr.length - 1){
-            index = arrLength - 1
-            carouselList.style.transition = 'none'
-            css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+          if(carouselLoop){
+            if (index === 0 || flag) {
+              index = 5
+              carouselList.style.transition = 'none'
+              css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+              flag = false
+            }
+            if (index === 9) {
+              index = 4
+              carouselList.style.transition = 'none'
+              css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+            }
           }
           index++
           if (index === arrLength && !carouselLoop) {
@@ -200,29 +249,11 @@
             carouselList.style.transition = 'none'
             changePage(index)
           }
-          if (carouselLoop) {
-            if(index > arrLength){
-                css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
-                carouselList.addEventListener('transitionend',loopControl2)
-            }
-            else {
-              carouselList.removeEventListener('transitionend',loopControl2)
-            }
-            if(index === arrLength){
-              carouselList.addEventListener('transitionend',loopControl)
-            }
-            setInterval(function () {
-              carouselList.removeEventListener('transitionend',loopControl)
-            },1000)
-            // else {
-            //   carouselList.removeEventListener('transitionend',loopControl)
-            // }
-          }
           setTimeout(function () {
             carouselList.style.transition = '.8s transform'
             changePage(index)
-          }, 50)
-        }, 1200)
+          }, 200)
+        },1200)
       }
 
 
