@@ -60,13 +60,13 @@
 </head>
 <body>
 <div id="wrap">
-   <div class="carousel">
-      <ul class="carousel-list"></ul>
+   <div class="carousel" carouselLoop>
+      <ul class="carousel-list" ></ul>
       <div class="points"></div>
    </div>
 </div>
 
-
+<script type="text/javascript" src="js/transfotm.js"></script>
 <script type="text/javascript">
   window.onload = function () {
     // 阻止全局默认行为
@@ -76,8 +76,14 @@
     })
     var carouselNode = document.querySelector('.carousel')
     var imgArr = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg']
+    var carouselLoop = !(carouselNode.getAttribute('carouselLoop') === null)
     if (carouselNode) {
-      carousel(imgArr)
+      if(carouselLoop){
+        carousel(imgArr.concat(imgArr))
+      }
+    else {
+        carousel(imgArr)
+      }
     }
 
     // 生成无缝滑屏结构
@@ -94,7 +100,7 @@
       document.head.appendChild(styleNode)
       var pointsNode = document.querySelector('.carousel > .points')
       if(pointsNode){
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0; i < imgArr.length; i++) {
           var point = document.createElement('span')
           if(i === 0){
             point.classList.add('active')
@@ -112,26 +118,39 @@
       var touchX = 0
       var elementX = 0
       var touchMove = 0
+      var index = 0
       var carouselList = document.querySelector('.carousel > .carousel-list')
-      var elementLeft = 0
       carouselNode.addEventListener('touchstart', function (ev) {
         ev = ev || event
         var touch = ev.changedTouches[0]
         touchX = touch.clientX
-        elementX = elementLeft
+        if (carouselLoop){
+          console.log(index)
+          if(index === 0){
+            index = -5
+            carouselList.style.transition = 'none'
+            css(carouselList,'translateX',index * document.documentElement.clientWidth)
+          }
+          if(index === -9){
+            index = -4
+            carouselList.style.transition = 'none'
+            css(carouselList,'translateX',index * document.documentElement.clientWidth)
+          }
+        }
+        elementX = css(carouselList,'translateX')
         carouselList.style.transition = 'none'
+
       })
 
       carouselNode.addEventListener('touchmove', function (ev) {
         ev = ev || event
         var touch = ev.changedTouches[0]
         touchMove = touch.clientX - touchX
-        elementLeft = elementX + touchMove
-        carouselList.style.transform= 'translateX( '+elementLeft+'px)'
+        css(carouselList,'translateX',elementX + touchMove)
       })
 
       carouselNode.addEventListener('touchend', function () {
-        var index = elementLeft / document.documentElement.clientWidth
+         index = css(carouselList,'translateX') / document.documentElement.clientWidth
         var points = document.querySelectorAll('.carousel > .points > span')
         if(touchMove < 0){
           index = Math.floor(index)
@@ -139,22 +158,21 @@
         else {
           index = Math.ceil(index)
         }
-        if(index > 0){
-          index = 0
-        }else if(index < 1-imgArr.length){
-          index = 1-imgArr.length
+        if (!carouselLoop){
+          if(index > 0){
+            index = 0
+          }else if(index < 1-imgArr.length){
+            index = 1-imgArr.length
+          }
         }
         for(var i = 0; i < imgArr.length; i++){
           points[i].classList.remove('active')
-          if(i === -index){
+          if(i === -index % imgArr.length){
             points[i].classList.add('active')
           }
         }
-        carouselList.style.transition = '.5s'
-        elementLeft = index * document.documentElement.clientWidth
-        carouselList.style.transform= 'translateX( '+elementLeft+'px)'
-
-
+          carouselList.style.transition = '.5s'
+          css(carouselList,'translateX',index * document.documentElement.clientWidth)
       })
     })()
 
