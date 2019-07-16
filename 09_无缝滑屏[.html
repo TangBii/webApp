@@ -62,7 +62,7 @@
 </head>
 <body>
 <div id="wrap">
-   <div class="carousel"  carouselPoints carouselAuto>
+   <div class="carousel"  carouselLoop carouselPoints carouselAuto>
       <ul class="carouselList">
       </ul>
    </div>
@@ -189,6 +189,11 @@
       function autoPlay() {
         clearInterval(carouselTimer)
         carouselTimer = setInterval(function () {
+          if(index===arr.length - 1){
+            index = arrLength - 1
+            carouselList.style.transition = 'none'
+            css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+          }
           index++
           if (index === arrLength && !carouselLoop) {
             index = 0
@@ -197,8 +202,8 @@
           }
           if (carouselLoop) {
             if(index > arrLength){
-              css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
-              carouselList.addEventListener('transitionend',loopControl2)
+                css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
+                carouselList.addEventListener('transitionend',loopControl2)
             }
             else {
               carouselList.removeEventListener('transitionend',loopControl2)
@@ -243,8 +248,8 @@
         css(carouselList, 'translateX', -index * document.documentElement.clientWidth)
       }
 
-    }  // carousel
-  }   //  window.onload
+    }
+  }
 </script>
 </body>
 </html>
