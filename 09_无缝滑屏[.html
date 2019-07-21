@@ -95,11 +95,14 @@
       var carouselAuto = !(carousel.getAttribute('carouselAuto') === null)
       var arrLength = arr.length
       var navPoints = null
-      var touchStart = 0
+      var touchStartX = 0
       var elementStart = 0
       var index = 0
-      var touchMove = 0
+      var moveX = 0
       var carouselTimer = null
+      var touchstartY = 0
+      var isX = true
+      var isFirst = true
 
       // 自动轮播
       if (carouselAuto) {
@@ -137,6 +140,8 @@
 
       //切屏
       carousel.addEventListener('touchstart', function (ev) {
+        isX = true
+        isFirst = true
         clearInterval(carouselTimer)
         carouselList.style.transition = 'none'
         if (carouselLoop) {
@@ -151,24 +156,34 @@
         }
         ev = ev || event
         var touch = ev.changedTouches[0]
-        touchStart = touch.clientX
+        touchStartX = touch.clientX
+        touchstartY = touch.clientY
         elementStart = css(carouselList, 'translateX')
       })
 
       carousel.addEventListener('touchmove', function (ev) {
+        if(!isX){
+          return
+        }
         ev = ev || event
         var touch = ev.changedTouches[0]
-        touchMove = touch.clientX - touchStart
-        css(carouselList, 'translateX', elementStart + touchMove)
+        moveX = touch.clientX - touchStartX
+        moveY = touch.clientY - touchstartY
+        if(isFirst && Math.abs(moveY) > Math.abs(moveX)){
+          isFirst = false
+          isX = false
+          return
+        }
+        css(carouselList, 'translateX', elementStart + moveX)
       })
 
       carousel.addEventListener('touchend', function () {
         index = css(carouselList, 'translateX') / document.documentElement.clientWidth
-        if (touchMove < 0) {
-          index -= .2
+        if (moveX < 0) {
+          // index -= .2
           index = -Math.round(index)
         } else {
-          index += .2
+          // index += .2
           index = -Math.ceil(index)
         }
         if (!carouselLoop) {
