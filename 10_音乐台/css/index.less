@@ -2,12 +2,14 @@
 @import 'mix-in';
 @import "reset";
 @import "carousel";
+@import "clearfix";
 #wrap{
   position: relative;
   font-family: Leelawadee sans-serif;
   height: 100%;
-  overflow: hidden;
-  background: #eee;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #fff;
   .header{
     background:#232323;
     .up{
@@ -138,6 +140,107 @@
           }
         }
       }
+    }
+    .showWrap{
+      overflow: hidden;
+      width: 1046/@rem;
+      background: #fff;
+      margin: 0 auto;
+        .showHeader{
+          margin-top: 30px/@rem;
+          margin: 8/@rem;
+          padding: 5/@rem;
+          height: 80/@rem;
+          line-height: 80/@rem;
+          .title{
+            font-size: .8rem;
+            float: left;
+          }
+          .more{
+            font-size: .8rem;
+            float: right;
+          }
+        }
+        .showNav{
+          margin: 8/@rem;
+          margin-bottom: 10/@rem;
+          padding: 5/@rem;
+          height: 70/@rem;
+          line-height: 70/@rem;
+          a{
+            height: 105/@rem;
+            width: 160/@rem;
+            font-size: 44/@rem;
+            text-align: center;
+            padding-right: 40/@rem;
+            color:#6b6b6b;
+          }
+          .line{
+            width: 90/@rem;
+            height: 9/@rem;
+            background: #6f900d;
+          }
+        }
+        .showContent{
+          width: 300%;
+          &:extend(.clearfix all);
+          .loading{
+            float: left;
+            width: 33.333%;
+            height: 101/@rem;
+            background: url("../img/loading.gif") no-repeat center center;
+            opacity: 0;
+          }
+          .showList{
+            float: left;
+            width: 33.33%;
+            .item{
+              float: left;
+              box-sizing: border-box;
+              width: 506/@rem;
+              margin: 8/@rem;
+              padding: 5/@rem;
+              font-size: 40/@rem;
+              background:#efefef ;
+              color: #000;
+              img{
+                width: 100%;
+              }
+              .describe{
+                width: 100%;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+              .info{
+                .ico{
+                  display: inline-block;
+                  width: 40/@rem;
+                  height: 40/@rem;
+                  background: url("../img/ice.png") no-repeat;
+                }
+                .pageView{
+                  float: left;
+                  margin-right: 30px/@rem;
+                  .ico{
+                    background-position: 0 200px/@rem;
+                  }
+                }
+                .comment{
+                  float: left;
+                  .ico{
+                    background-position: 0 -1150px/@rem;
+                  }
+                }
+
+
+              }
+
+            }
+          }
+        }
+
     }
   }
 }
