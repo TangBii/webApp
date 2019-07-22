@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+   <title>音乐台</title>
+   <link rel="stylesheet" href="css/index.css">
+
+</head>
+<body>
+   <div id="wrap">
+      <div class="header">
+         <div class="up">
+            <div class="logo"><img src="img/logo.png" alt=""></div>
+            <div class="breadNav"></div>
+            <ul class="btns">
+               <li><a href="javascript:;">登陆</a></li>
+               <li><a href="javascript:;">注册</a></li>
+            </ul>
+         </div>
+         <div class="down">
+            <form action="post">
+               <input type="text" placeholder="搜索">
+               <input type="submit" value="搜索">
+            </form>
+         </div>
+         <div class="mask">
+            <li>首页</li>
+            <li>MV</li>
+            <li>悦单</li>
+            <li>V榜</li>
+            <li>音乐</li>
+            <li>商城</li>
+            <li>节目</li>
+            <li>App下载</li>
+         </div>
+      </div>
+      <div class="content">
+         <div class="nav">
+            <ul class="list">
+               <li class="active"><a href="javascript:;">首页</a></li>
+               <li><a href="javascript:;">MV</a></li>
+               <li><a href="javascript:;">V榜</a></li>
+               <li><a href="javascript:;">娱乐</a></li>
+               <li><a href="javascript:;">商城</a></li>
+               <li><a href="javascript:;">众筹</a></li>
+               <li><a href="javascript:;">App下载</a></li>
+               <li><a href="javascript:;">众筹1</a></li>
+               <li><a href="javascript:;">众筹2</a></li>
+               <li><a href="javascript:;">众筹3</a></li>
+               <li><a href="javascript:;">众筹4</a></li>
+               <li><a href="javascript:;">众筹5</a></li>
+               <li><a href="javascript:;">众筹6</a></li>
+               <li><a href="javascript:;">众筹7</a></li>
+               <li><a href="javascript:;">众筹8</a></li>
+               <li><a href="javascript:;">众筹9</a></li>
+            </ul>
+         </div>
+         <div class="carousel"  carouselLoop carouselPoints carouselAuto>
+            <ul class="carouselList">
+            </ul>
+         </div>
+      </div>
+   </div>
+   <script type="text/javascript" src="js/tools.js"></script>
+   <script type="text/javascript" src="js/transform.js"></script>
+   <script type="text/javascript" src="js/carousel.js"></script>
+<script type="text/javascript">
+  window.onload = function () {
+
+    var btn = document.querySelector('.header > .up > .breadNav')
+    var mask = document.querySelector('.header > .mask')
+    var isOpen = false
+    var searchInput = document.querySelector('.header > .down > form > input[type="text"]')
+    var nav = document.querySelector('.content > .nav')
+    var navList = document.querySelector('.content > .nav > .list')
+    var navlis =document.querySelectorAll('.content > .nav > .list > li')
+    var imgArr = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
+
+    // 阻止事件默认行为
+    document.addEventListener('touchstart',function (ev) {
+      ev = ev || event
+      ev.preventDefault()
+    })
+
+    // rem适配
+    ;(function () {
+      var styleNode = document.createElement('style')
+      var w = document.documentElement.clientWidth / 16
+      styleNode.innerHTML = 'html{font-size:'+w+'px!important;}'
+      document.head.appendChild(styleNode)
+    })()
+
+    //频道按钮
+    btnToggle()
+    function btnToggle() {
+      btn.addEventListener('touchstart',function (ev) {
+        ev = ev || event
+        if(!isOpen){
+          tools.addClass(btn,'active')
+          mask.style.display = 'block'
+        }
+        else {
+          tools.removeClass(btn,'active')
+          mask.style.display = 'none'
+        }
+        isOpen = !isOpen
+        ev.stopPropagation()
+        ev.preventDefault()
+      })
+      mask.addEventListener('touchstart',function (ev) {
+        ev = ev || event
+        ev.stopPropagation()
+        ev.preventDefault()
+      })
+    }
+    document.addEventListener('touchstart',function () {
+      tools.removeClass(btn,'active')
+      mask.style.display = 'none'
+      isOpen = false
+    })
+    
+    //搜索框获焦
+    searchInput.addEventListener('touchstart',function (ev) {
+      ev = ev || event
+      this.focus()  //弹出键盘
+      ev.stopPropagation()
+    })
+    document.addEventListener('touchstart',function () {
+      searchInput.blur()
+    })
+    
+    // 导航条
+    navSliding()
+    function navSliding() {
+      var elementX = 0
+      var touchStart = 0
+      var touchMove = 0
+      var distance = 0
+      var startTime = 0
+      var startPosition = 0
+      var endTime = 0
+      var speed = 0
+      nav.addEventListener('touchstart',function (ev) {
+        speed = 0
+        navList.style.transition = 'none'
+        ev = ev || event
+        var touch = ev.changedTouches[0]
+        touchStart = touch.clientX
+        elementX = css(navList,'translateX')
+        startTime = new Date().getTime()
+        startPosition = touchStart
+      })
+      nav.addEventListener('touchmove',function (ev) {
+        ev = ev || event
+        var touch = ev.changedTouches[0]
+        touchMove = touch.clientX - startPosition
+        distance = css(navList,'translateX') + touchMove
+        var flag = 10
+        if(distance > 0){
+          touchMove = touchMove * (flag / (flag + touchMove))
+        }
+        else if(distance < nav.clientWidth - navList.offsetWidth){
+          touchMove = touchMove * (flag / (flag - touchMove))
+        }
+        distance =css(navList,'translateX') + touchMove
+        css(navList,'translateX',distance)
+        endTime = new Date().getTime()
+        speed = touchMove / (endTime - startTime)
+        startTime = endTime
+        startPosition = touch.clientX
+      })
+      nav.addEventListener('touchend',function () {
+        elementX = css(navList,'translateX')
+        var bsr = ''
+        if(Math.abs(speed) > 0.5){
+          distance = elementX + speed * 180
+          var transitionTime = Math.abs(speed) * 0.2 < 2? Math.abs(speed) * 0.2 : 2
+          if(distance > 0 || distance < nav.clientWidth - navList.offsetWidth){
+            bsr = "cubic-bezier(.26,1.51,.68,1.54) "
+          }
+          navList.style.transition = transitionTime+'s '+bsr+' transform'
+
+        }
+          if(distance > 0){
+           distance = 0
+          }
+          else if(distance < nav.clientWidth - navList.offsetWidth){
+            distance = nav.clientWidth - navList.offsetWidth - 10
+        }
+        css(navList,'translateX',distance)
+      })
+
+
+
+    }
+    
+    //无缝滑屏
+   carouselElement(imgArr)
+    
+    //导航选中切换
+       navList.addEventListener('touchstart',function () {
+         this.isMove =false
+       })
+       navList.addEventListener('touchmove',function () {
+            this.isMove = true
+       })
+    navList.addEventListener('touchend',function (ev) {
+      if(!this.isMove){
+        ev = ev || event
+        var touch = ev.changedTouches[0]
+        for(var i = 0; i< navlis.length;i++){
+          tools.removeClass(navlis[i],'active')
+        }
+        tools.addClass(touch.target.parentNode,'active')
+      }
+    })
+  }
+</script>
+</body>
+</html>
