@@ -940,13 +940,7 @@
         Linear: function(t,b,c,d){
           return -c *(t/=d)*(t-2) + b;
         }
-        /*
-         t:当前次数
-         b:初始位置
-         c:最终位置与初始位置的差值
-         d:总次数
-        *
-        */
+
 
       }
       var timer = null
@@ -955,6 +949,8 @@
       var minScroll = -(totalHeight-document.documentElement.clientHeight)
       var scrollScale = document.documentElement.offsetHeight / totalHeight
       wrap.addEventListener('touchstart',function (ev) {
+        totalHeight = header.offsetHeight + nav.offsetHeight + carousel.offsetHeight + showWrap.offsetHeight
+        minScroll = -(totalHeight-document.documentElement.clientHeight)
         ev = ev || event
         var touch = ev.changedTouches[0]
         touchStart.x= touch.clientX
