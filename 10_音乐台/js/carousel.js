@@ -12,14 +12,14 @@
       var arrLength = arr.length
       var navPoints = null
       var touchStartX = 0
-      var elementStart = 0
       var index = 0
       var moveX = 0
       var carouselTimer = null
       var touchstartY = 0
       var isX = true
       var isFirst = true
-
+      var TimeStart = 0
+      var speed = 0
       // 自动轮播
       if (carouselAuto) {
         autoPlay()
@@ -74,7 +74,7 @@
         var touch = ev.changedTouches[0]
         touchStartX = touch.clientX
         touchstartY = touch.clientY
-        elementStart = css(carouselList, 'translateX')
+        TimeStart = new Date().getTime()
       })
 
       carousel.addEventListener('touchmove', function (ev) {
@@ -83,23 +83,32 @@
         }
         ev = ev || event
         var touch = ev.changedTouches[0]
-        moveX = touch.clientX - touchStartX
-        moveY = touch.clientY - touchstartY
+         moveX = touch.clientX - touchStartX
+         moveY = touch.clientY - touchstartY
         if(isFirst && Math.abs(moveY) > Math.abs(moveX)){
-          isFirst = false
           isX = false
           return
         }
-        css(carouselList, 'translateX', elementStart + moveX)
+        isFirst = false
+        css(carouselList, 'translateX', css(carouselList, 'translateX') + moveX)
+        var timeEnd = new Date().getTime()
+        var changeTime = timeEnd - TimeStart
+        speed = moveY / changeTime
+        touchStartX = touch.clientX
+        TimeStart = timeEnd
       })
 
       carousel.addEventListener('touchend', function () {
         index = css(carouselList, 'translateX') / document.documentElement.clientWidth
         if (moveX < 0) {
-          // index -= .2
+          if(Math.abs(speed) > 0.2){
+            index -= .4
+          }
           index = -Math.round(index)
         } else {
-          // index += .2
+          if(Math.abs(speed) > 0.2){
+            index += .4
+          }
           index = -Math.ceil(index)
         }
         if (!carouselLoop) {
