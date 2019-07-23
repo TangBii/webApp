@@ -8,7 +8,7 @@
   font-family: Leelawadee sans-serif;
   height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   background: #fff;
   .header{
     background:#232323;
@@ -41,16 +41,17 @@
           width: 111/@rem;
           height: 78/@rem;
           text-align: center;
-          margin-right: 15/@rem;
           font-size: 42/@rem;
-          background: rgb(6,198,133);
-          border-radius: 8/@rem;
           a{
-            color: black;
+            color: gainsboro;
             font-weight: bolder;
             padding: 3/@rem;
             line-height: 78/@rem;
           }
+        }
+        li:first-child{
+          box-sizing: border-box;
+            border-right: 1px dashed white;
         }
 
       }
@@ -243,4 +244,15 @@
 
     }
   }
+  .scrollLine{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 4px;
+    opacity: 0;
+    background: gray;
+    transition: 1s opacity;
+  }
+
 }
